@@ -1,51 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 <PropertyGroup>
-	<OutputType>WinExe</OutputType>
-	<RootNamespace>StarfieldSS</RootNamespace>
-	<StartupObject>StarfieldSS.MainProgram</StartupObject>
-	<UseWindowsForms>true</UseWindowsForms>
-	<MyType>WindowsForms</MyType>
-	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-	<Platforms>x64;x86</Platforms>
-	<TargetFrameworks>net8.0-windows;net10.0-windows</TargetFrameworks> 
-	<!-- <TargetFramework>net10.0-windows</TargetFramework> -->
+   <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+   <ApplicationIcon>Res\Star.ico</ApplicationIcon> 
+   <ApplicationManifest>app.manifest</ApplicationManifest>
+   <AssemblyName>StarfieldSS</AssemblyName>
+   <MyType>WindowsFormsWithCustomSubMain</MyType>
+   <OutputType>WinExe</OutputType>
+   <Platforms>x64;x86</Platforms>
+   <RootNamespace>StarfieldSS</RootNamespace>
+   <StartupObject>StarfieldSS.MainProgram</StartupObject>
+   <UseWindowsForms>true</UseWindowsForms>
+   <TargetFrameworks>net48;net8.0-windows;net10.0-windows</TargetFrameworks>
 </PropertyGroup>
 
 <PropertyGroup Condition="'$(TargetFramework)' != ''">
-	<TfmName>$(TargetFramework.Replace('-windows', ''))</TfmName>
-	<OutputPath>..\bin\$(Configuration)\$(TfmName) $(Platform)\</OutputPath>
-	<IntermediateOutputPath>obj\$(Configuration)\$(TfmName) $(Platform)\</IntermediateOutputPath>
+   <TfmName>$(TargetFramework.Replace('-windows', ''))</TfmName>
+   <OutputPath>..\bin\$(Configuration)\$(TfmName) $(Platform)\</OutputPath>
+   <IntermediateOutputPath>obj\$(Configuration)\$(TfmName) $(Platform)\</IntermediateOutputPath>
 </PropertyGroup>
 
 <PropertyGroup Condition="'$(Platform)' == 'x86' Or '$(Platform)' == 'x64'">
-	<PlatformTarget>$(Platform)</PlatformTarget>
+   <PlatformTarget>$(Platform)</PlatformTarget>
 </PropertyGroup>
 
+<ItemGroup>
+   <EmbeddedResource Include="Res\PayPal.png" LogicalName="PayPal.png" />
+   <EmbeddedResource Include="Res\Revolut.png" LogicalName="Revolut.png" />
+</ItemGroup>
 
 <ItemGroup>
-    <Import Include="System.Data" />
-    <Import Include="System.Drawing" />
-    <Import Include="System.Windows.Forms" />
-  </ItemGroup>
+   <Import Include="System.Data" />
+   <Import Include="System.Drawing" />
+   <Import Include="System.Windows.Forms" />
+</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="My Project\Application.Designer.vb">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Application.myapp</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="My Project\Application.myapp">
-      <Generator>MyApplicationCodeGenerator</Generator>
-      <LastGenOutput>Application.Designer.vb</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-   <Target Name="RenameToScr" AfterTargets="Build">
-      <Move SourceFiles="$(TargetDir)$(AssemblyName).exe" DestinationFiles="$(TargetDir)$(AssemblyName).scr" />
-   </Target>
+<Target Name="RenameToScr" AfterTargets="Build">
+   <Move Condition="Exists('$(TargetDir)$(AssemblyName).exe')" SourceFiles="$(TargetDir)$(AssemblyName).exe" DestinationFiles="$(TargetDir)$(AssemblyName).scr" />
+   <Move Condition="Exists('$(TargetDir)$(AssemblyName).exe.config')" SourceFiles="$(TargetDir)$(AssemblyName).exe.config" DestinationFiles="$(TargetDir)$(AssemblyName).scr.config" />
+</Target>
 
 </Project>

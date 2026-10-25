@@ -1,4 +1,10 @@
-﻿Imports Microsoft.Win32
+﻿'--------------------------------------------------------------------------------------------------
+' StarfieldSS: AppSettings.vb: App Settings class
+'    © 2026 Remus Rigo
+'       v1.0.20261024
+'--------------------------------------------------------------------------------------------------
+
+Imports Microsoft.Win32
 
 Public Class AppSettings
 
@@ -8,6 +14,8 @@ Public Class AppSettings
    Public Property Speed As Integer = 4         ' Z units per tick
    Public Property StarCount As Integer = 200
 
+   '-----------------------------------------------------------------------------------------------
+   ' Load Settings
    Public Shared Function Load() As AppSettings
       Dim cfg As New AppSettings
       Try
@@ -24,6 +32,8 @@ Public Class AppSettings
       Return cfg
    End Function
 
+   '-----------------------------------------------------------------------------------------------
+   ' Save Settings
    Public Sub Save()
       Using key As RegistryKey = Registry.CurrentUser.CreateSubKey(regAppPath)
          key.SetValue("UseTrails", If(UseTrails, 1, 0), RegistryValueKind.DWord)
@@ -32,6 +42,8 @@ Public Class AppSettings
       End Using
    End Sub
 
+   '-----------------------------------------------------------------------------------------------
+   ' CheckInterval
    Private Shared Function CheckInterval(value As Integer, min As Integer, max As Integer) As Integer
       Return Math.Max(min, Math.Min(max, value))
    End Function
